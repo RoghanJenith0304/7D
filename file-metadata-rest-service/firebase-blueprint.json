@@ -1,0 +1,39 @@
+{
+  "entities": {
+    "FileMetadata": {
+      "title": "File Metadata",
+      "description": "Metadata for uploaded files",
+      "type": "object",
+      "properties": {
+        "originalName": {
+          "type": "string",
+          "description": "The original name of the file"
+        },
+        "mimeType": {
+          "type": "string",
+          "description": "The MIME type of the file"
+        },
+        "size": {
+          "type": "number",
+          "description": "The size of the file in bytes"
+        },
+        "uploadDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the file was uploaded"
+        },
+        "path": {
+          "type": "string",
+          "description": "The local path where the file is stored"
+        }
+      },
+      "required": ["originalName", "mimeType", "size", "uploadDate", "path"]
+    }
+  },
+  "firestore": {
+    "/files/{fileId}": {
+      "schema": "FileMetadata",
+      "description": "Collection of file metadata documents"
+    }
+  }
+}

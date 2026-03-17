@@ -1,0 +1,5 @@
+{
+  "name": "File Metadata REST Service",
+  "description": "An Express-based REST API for file uploads with metadata storage in Firestore.",
+  "requestFramePermissions": []
+}

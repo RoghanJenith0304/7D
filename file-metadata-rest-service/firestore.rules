@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: files
+    // Document ID: auto-generated
+    // Fields:
+    //   - originalName: string (required)
+    //   - mimeType: string (required)
+    //   - size: number (required)
+    //   - uploadDate: string (required, ISO 8601)
+    //   - path: string (required)
+    //
+    // ===============================================================
+
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isValidFileMetadata(data) {
+      return data.keys().hasAll(['originalName', 'mimeType', 'size', 'uploadDate', 'path']) &&
+             data.originalName is string && data.originalName.size() > 0 && data.originalName.size() < 255 &&
+             data.mimeType is string && data.mimeType.size() > 0 &&
+             data.size is number && data.size >= 0 &&
+             data.uploadDate is string &&
+             data.path is string;
+    }
+
+    match /files/{fileId} {
+      // For this REST service, we allow all reads/writes for now as it's a demo.
+      // In a real app, we would restrict this to authenticated users or specific roles.
+      allow read: if true;
+      allow create: if isValidFileMetadata(request.resource.data);
+      allow update: if false; // Metadata shouldn't be updated in this simple service
+      allow delete: if false; // Metadata shouldn't be deleted in this simple service
+    }
+  }
+}
