@@ -1,0 +1,5 @@
+{
+  "name": "Evently",
+  "description": "A full-stack event management platform to create, RSVP, and comment on events.",
+  "requestFramePermissions": []
+}

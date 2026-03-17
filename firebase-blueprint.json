@@ -1,0 +1,79 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "displayName": { "type": "string", "description": "Display name" },
+        "email": { "type": "string", "description": "User email" },
+        "photoURL": { "type": "string", "description": "Profile photo URL" },
+        "role": { "type": "string", "enum": ["user", "admin"], "description": "User role" }
+      },
+      "required": ["uid", "displayName", "email"]
+    },
+    "Event": {
+      "title": "Event",
+      "description": "Event details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "location": { "type": "string" },
+        "createdBy": { "type": "string", "description": "UID of the creator" },
+        "creatorName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "imageUrl": { "type": "string" }
+      },
+      "required": ["title", "date", "createdBy", "createdAt"]
+    },
+    "RSVP": {
+      "title": "RSVP",
+      "description": "User RSVP to an event",
+      "type": "object",
+      "properties": {
+        "eventId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "status": { "type": "string", "enum": ["going", "maybe", "not_going"] },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["eventId", "userId", "status", "timestamp"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "Comment on an event",
+      "type": "object",
+      "properties": {
+        "eventId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "userPhoto": { "type": "string" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["eventId", "userId", "text", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/events/{eventId}": {
+      "schema": "Event",
+      "description": "Events collection"
+    },
+    "/events/{eventId}/rsvps/{userId}": {
+      "schema": "RSVP",
+      "description": "RSVPs for a specific event"
+    },
+    "/events/{eventId}/comments/{commentId}": {
+      "schema": "Comment",
+      "description": "Comments for a specific event"
+    }
+  }
+}
